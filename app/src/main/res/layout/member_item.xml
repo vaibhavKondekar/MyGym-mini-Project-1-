@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:background="@drawable/rounded_corner_background">
+
+
+    <!-- Member Item Container -->
+
+    <!-- Buttons Container -->
+
+    <LinearLayout
+        android:layout_width="411dp"
+        android:layout_height="170dp"
+        android:layout_marginBottom="8dp"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <!-- Member Photo ImageView with black border -->
+        <ImageView
+            android:id="@+id/memberPhotoImageView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/img_1"
+            android:scaleType="fitCenter"
+            android:src="@drawable/default_photo" />
+
+        <!-- Member Details Layout -->
+        <LinearLayout
+            android:id="@+id/memberDetailsLayout"
+            android:layout_width="0dp"
+            android:layout_height="144dp"
+            android:layout_weight="1"
+            android:gravity="start"
+            android:orientation="vertical"
+            android:paddingStart="16dp">
+
+            <!-- Member Name TextView -->
+            <TextView
+                android:id="@+id/memberNameTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="4dp"
+                android:text="Member Name"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <!-- Member ID TextView -->
+            <!--            <TextView-->
+            <!--                android:id="@+id/memberIdTextView"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:paddingBottom="4dp"-->
+            <!--                android:text="ID: "-->
+            <!--                android:textSize="16sp" />-->
+
+            <!-- Member Phone TextView -->
+            <TextView
+                android:id="@+id/memberPhoneTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="4dp"
+                android:text="Phone: "
+                android:textSize="16sp" />
+
+            <!-- Member Dates TextView -->
+            <TextView
+                android:id="@+id/memberDatesFTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="4dp"
+                android:text="Joining"
+                android:textSize="16sp" />
+            <TextView
+                android:id="@+id/memberDatesLTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="4dp"
+                android:text="Expiry Date"
+                android:textSize="16sp" />
+
+            <!-- Member Due Amount TextView -->
+            <TextView
+                android:id="@+id/memberDueTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="4dp"
+                android:text="Due Amount"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/buttonsContainer"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="2dp">
+
+        <!-- Renew Button -->
+        <Button
+            android:id="@+id/renewButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="Renew"
+            android:textColor="#ffff"
+            android:textStyle="bold" />
+
+        <!-- Details Button -->
+        <Button
+            android:id="@+id/detailsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="Details"
+            android:textColor="#ffff"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</LinearLayout>
