@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <!-- Member Name TextView -->
+    <TextView
+        android:id="@+id/memberNameTextView"
+        android:layout_width="134dp"
+        android:layout_height="31dp"
+        android:layout_marginTop="10dp"
+        android:text="Member Name"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <!-- Member ID TextView -->
+    <TextView
+        android:id="@+id/memberIdTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/memberNameTextView"
+        android:text="Member ID"
+        android:textSize="20sp"
+        android:layout_marginTop="10dp"/>
+
+    <!-- Start Date EditText -->
+    <EditText
+        android:id="@+id/startDateTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Start Date"
+        android:inputType="date"
+        android:focusable="false"
+        android:layout_marginTop="75dp"/>
+
+    <!-- Due Date EditText -->
+    <EditText
+        android:id="@+id/dueDateTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/startDateTextView"
+        android:hint="Due Date"
+        android:inputType="date"
+        android:focusable="false"
+        android:layout_marginTop="8dp"/>
+
+    <!-- Total Amount EditText -->
+    <EditText
+        android:id="@+id/totalAmountEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dueDateTextView"
+        android:hint="Total Amount"
+        android:inputType="numberDecimal"
+        android:layout_marginTop="8dp"/>
+
+    <!-- Due Amount EditText -->
+    <EditText
+        android:id="@+id/dueAmountEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/totalAmountEditText"
+        android:hint="Due Amount"
+        android:inputType="numberDecimal"
+        android:layout_marginTop="8dp"/>
+
+    <!-- Paid Amount EditText -->
+    <EditText
+        android:id="@+id/paidAmountEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dueAmountEditText"
+        android:hint="Paid Amount"
+        android:inputType="numberDecimal"
+        android:layout_marginTop="8dp"/>
+
+    <!-- Update and Delete Buttons -->
+    <LinearLayout
+        android:id="@+id/buttonsContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/paidAmountEditText"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="16dp">
+
+        <!-- Update Button -->
+        <Button
+            android:id="@+id/updateButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Update"/>
+
+        <!-- Delete Button -->
+        <Button
+            android:id="@+id/deleteButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delete"
+            android:layout_marginStart="16dp"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

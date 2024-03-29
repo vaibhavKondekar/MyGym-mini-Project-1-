@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".DashBoardActivity">
+
+    <TextView
+        android:id="@+id/textPresentDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Present Date: "
+        android:textSize="18sp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:id="@+id/textTotalMembers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textPresentDate"
+        android:layout_marginTop="16dp"
+        android:text="Total Members: "
+        android:textSize="18sp"/>
+
+    <TextView
+        android:id="@+id/textExpiryToday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textTotalMembers"
+        android:layout_marginTop="16dp"
+        android:text="Expiry Today: "
+        android:textSize="18sp"/>
+
+    <TextView
+        android:id="@+id/textExpiryNext3Days"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textExpiryToday"
+        android:layout_marginTop="16dp"
+        android:text="Expiry in Next 3 Days: "
+        android:textSize="18sp"/>
+
+    <TextView
+        android:id="@+id/textExpiried"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textExpiryNext3Days"
+        android:layout_marginTop="16dp"
+        android:text="Expired:"
+        android:textSize="18sp"/>
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textExpiried"
+        android:layout_marginTop="16dp"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/radioExpirySoon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Expiring in next 3 days"
+            android:textSize="18sp"/>
+
+        <RadioButton
+            android:id="@+id/radioExpiringToday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Expiring Today"
+
+            android:textSize="18sp"/>
+
+        <RadioButton
+            android:id="@+id/radioExpired"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Expired"
+
+            android:textSize="18sp"/>
+
+
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/btnShowList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/radioGroup"
+        android:layout_marginTop="16dp"
+        android:text="Show List"
+        android:textSize="18sp"
+        android:layout_centerHorizontal="true"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnShowList"
+        android:layout_marginTop="16dp"/>
+
+
+</RelativeLayout>
