@@ -12,6 +12,9 @@ public class GymMember {
     private String dueAmount;
     private String paidAmount;
     private String age;
+    private String weight; // New field for weight
+    private String height; // New field for height
+    private String healthIssues; // New field for health issues
     private String gender;
     private String selectedPackage;
     private String photoUrl; // New field for storing the photo URL
@@ -22,7 +25,7 @@ public class GymMember {
 
     public GymMember(String memberId, String fullName, String mobileNo, String email, String registrationCode,
                      String startDate, String dueDate, String totalAmount, String dueAmount, String paidAmount,
-                     String age, String gender, String selectedPackage, String photoUrl) {
+                     String age, String weight, String height, String healthIssues, String gender, String selectedPackage, String photoUrl) {
         this.memberId = memberId;
         this.fullName = fullName;
         this.mobileNo = mobileNo;
@@ -34,6 +37,9 @@ public class GymMember {
         this.dueAmount = dueAmount;
         this.paidAmount = paidAmount;
         this.age = age;
+        this.weight = weight;
+        this.height = height;
+        this.healthIssues = healthIssues;
         this.gender = gender;
         this.selectedPackage = selectedPackage;
         this.photoUrl = photoUrl; // Initialize photo URL
@@ -126,6 +132,30 @@ public class GymMember {
 
     public void setAge(String age) {
         this.age = age;
+    }
+
+    public String getWeight() {
+        return weight;
+    }
+
+    public void setWeight(String weight) {
+        this.weight = weight;
+    }
+
+    public String getHeight() {
+        return height;
+    }
+
+    public void setHeight(String height) {
+        this.height = height;
+    }
+
+    public String getHealthIssues() {
+        return healthIssues;
+    }
+
+    public void setHealthIssues(String healthIssues) {
+        this.healthIssues = healthIssues;
     }
 
     public String getGender() {

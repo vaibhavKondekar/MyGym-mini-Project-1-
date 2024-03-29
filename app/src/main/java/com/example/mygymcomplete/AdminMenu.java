@@ -7,11 +7,9 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.auth.FirebaseAuth;
-
 public class AdminMenu extends AppCompatActivity {
 
-    private Button btnAddMember, btnViewMembers, btnAttendance,logout;
+    private Button btnAddMember, btnViewMembers, btnAttendance, btnDashboard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,19 +20,7 @@ public class AdminMenu extends AppCompatActivity {
         btnAddMember = findViewById(R.id.btnAddMember);
         btnViewMembers = findViewById(R.id.btnViewMembers);
         btnAttendance = findViewById(R.id.btnAttendance);
-        logout=findViewById(R.id.logout);
-
-
-
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(AdminMenu.this, Login1.class);
-                startActivity(intent);
-                finish();
-            }
-        });
+        btnDashboard = findViewById(R.id.btnDashboard);
 
         // Set click listeners
         btnAddMember.setOnClickListener(new View.OnClickListener() {
@@ -55,6 +41,13 @@ public class AdminMenu extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(AdminMenu.this, AttendanceActivity.class));
+            }
+        });
+
+        btnDashboard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(AdminMenu.this, DashBoardActivity.class));
             }
         });
     }

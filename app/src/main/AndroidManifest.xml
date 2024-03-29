@@ -18,6 +18,15 @@
         android:theme="@style/Theme.Material3.Light"
         tools:targetApi="31">
         <activity
+            android:name=".RenewMemberActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MembersDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DashBoardActivity"
+            android:exported="false" />
+        <activity
             android:name=".DisplayMembersActivity"
             android:exported="false" />
         <activity

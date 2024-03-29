@@ -33,10 +33,10 @@
             android:src="@drawable/img" />
 
         <Button
-            android:id="@+id/uploadPhotoButton"
+            android:id="@+id/takePhotoButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Upload Photo"
+            android:text="Take photo"
             android:layout_gravity="center"
             android:layout_marginTop="16dp"/>
 
@@ -97,6 +97,29 @@
             android:padding="12dp" />
 
         <EditText
+            android:id="@+id/weightEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Weight (kg)"
+            android:inputType="numberDecimal"
+            android:padding="12dp" />
+
+        <EditText
+            android:id="@+id/heightEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Height (cm)"
+            android:inputType="numberDecimal"
+            android:padding="12dp" />
+
+        <EditText
+            android:id="@+id/healthIssuesEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Health Issues (if any)"
+            android:padding="12dp" />
+
+        <EditText
             android:id="@+id/startDateEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -132,6 +155,14 @@
             android:padding="12dp" />
 
         <EditText
+            android:id="@+id/paidAmountEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Paid Amount"
+            android:inputType="numberDecimal"
+            android:padding="12dp" />
+
+        <EditText
             android:id="@+id/dueAmountEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -139,13 +170,7 @@
             android:inputType="numberDecimal"
             android:padding="12dp" />
 
-        <EditText
-            android:id="@+id/paidAmountEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Paid Amount"
-            android:inputType="numberDecimal"
-            android:padding="12dp" />
+
 
         <Button
             android:id="@+id/addMemberButton"

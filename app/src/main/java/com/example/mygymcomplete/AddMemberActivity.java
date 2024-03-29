@@ -1,15 +1,22 @@
 package com.example.mygymcomplete;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -17,6 +24,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -29,6 +38,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -36,21 +46,23 @@ import java.util.Locale;
 public class AddMemberActivity extends AppCompatActivity {
 
     private EditText fullNameEditText, mobileNoEditText, emailEditText, registrationCodeEditText,
-            startDateEditText, dueDateEditText, totalAmountEditText, dueAmountEditText, paidAmountEditText, ageEditText;
+            startDateEditText, dueDateEditText, totalAmountEditText, dueAmountEditText, paidAmountEditText, ageEditText,
+            weightEditText, heightEditText, healthIssuesEditText;
 
     private RadioButton maleRadioButton, femaleRadioButton;
     private Spinner packageSpinner;
-    private Button addMemberButton, uploadPhotoButton;
+    private Button addMemberButton, takePhotoButton;
+    private ImageView selectedImageView;
     private Calendar calendar;
     private int year, month, day;
+    private Uri selectedImageUri;
 
     // Firebase
     private DatabaseReference databaseRef;
     private StorageReference storageRef;
 
-    // Request code for image selection
-    private static final int PICK_IMAGE_REQUEST = 1;
-    private Uri selectedImageUri;
+    private static final int CAMERA_PERMISSION_REQUEST_CODE = 100;
+    private static final int REQUEST_IMAGE_CAPTURE = 101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,11 +84,15 @@ public class AddMemberActivity extends AppCompatActivity {
         dueAmountEditText = findViewById(R.id.dueAmountEditText);
         paidAmountEditText = findViewById(R.id.paidAmountEditText);
         ageEditText = findViewById(R.id.ageEditText);
+        weightEditText = findViewById(R.id.weightEditText);
+        heightEditText = findViewById(R.id.heightEditText);
+        healthIssuesEditText = findViewById(R.id.healthIssuesEditText);
         maleRadioButton = findViewById(R.id.maleRadioButton);
         femaleRadioButton = findViewById(R.id.femaleRadioButton);
         packageSpinner = findViewById(R.id.packageSpinner);
         addMemberButton = findViewById(R.id.addMemberButton);
-        uploadPhotoButton = findViewById(R.id.uploadPhotoButton);
+        takePhotoButton = findViewById(R.id.takePhotoButton);
+        selectedImageView = findViewById(R.id.selectedImageView);
 
         // Initialize calendar instance
         calendar = Calendar.getInstance();
@@ -113,31 +129,47 @@ public class AddMemberActivity extends AppCompatActivity {
             }
         });
 
-        // Set click listener for uploadPhotoButton
-        uploadPhotoButton.setOnClickListener(new View.OnClickListener() {
+        // Set click listener for takePhotoButton
+        takePhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openImageChooser();
+                if (ContextCompat.checkSelfPermission(AddMemberActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(AddMemberActivity.this, new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION_REQUEST_CODE);
+                } else {
+                    dispatchTakePictureIntent();
+                }
             }
         });
     }
 
-    private void openImageChooser() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            selectedImageUri = data.getData();
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            selectedImageView.setImageBitmap(imageBitmap);
+            // Convert Bitmap to Uri
+            selectedImageUri = getImageUri(this, imageBitmap);
         }
     }
 
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }
+
     private void addMemberToDatabase() {
+        // Retrieve member details from EditText fields
         final String fullName = fullNameEditText.getText().toString();
         final String mobileNo = mobileNoEditText.getText().toString();
         final String email = emailEditText.getText().toString();
@@ -148,13 +180,16 @@ public class AddMemberActivity extends AppCompatActivity {
         final String dueAmount = dueAmountEditText.getText().toString();
         final String paidAmount = paidAmountEditText.getText().toString();
         final String age = ageEditText.getText().toString();
+        final String weight = weightEditText.getText().toString();
+        final String height = heightEditText.getText().toString();
+        final String healthIssues = healthIssuesEditText.getText().toString();
         final String gender = maleRadioButton.isChecked() ? "Male" : "Female";
         final String selectedPackage = packageSpinner.getSelectedItem().toString();
 
         // Check if any field is empty
-        if (TextUtils.isEmpty(fullName) || TextUtils.isEmpty(mobileNo) || TextUtils.isEmpty(startDate)
-                || TextUtils.isEmpty(dueDate) || TextUtils.isEmpty(totalAmount) || TextUtils.isEmpty(dueAmount)
-                || TextUtils.isEmpty(paidAmount) || TextUtils.isEmpty(age) || TextUtils.isEmpty(registrationCode)) {
+        if (TextUtils.isEmpty(fullName) || TextUtils.isEmpty(mobileNo) || TextUtils.isEmpty(startDate) || TextUtils.isEmpty(dueDate) ||
+                TextUtils.isEmpty(totalAmount) || TextUtils.isEmpty(dueAmount) || TextUtils.isEmpty(paidAmount) ||
+                TextUtils.isEmpty(age) || TextUtils.isEmpty(weight) || TextUtils.isEmpty(height) || TextUtils.isEmpty(healthIssues) || TextUtils.isEmpty(registrationCode)) {
             Toast.makeText(this, "Please fill in all the fields", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -191,7 +226,7 @@ public class AddMemberActivity extends AppCompatActivity {
                                                 String photoUrl = uri.toString();
                                                 // Create GymMember object with the information
                                                 GymMember gymMember = new GymMember(memberId, fullName, mobileNo, email, registrationCode,
-                                                        startDate, dueDate, totalAmount, dueAmount, paidAmount, age, gender, selectedPackage, photoUrl);
+                                                        startDate, dueDate, totalAmount, dueAmount, paidAmount, age, weight, height, healthIssues, gender, selectedPackage, photoUrl);
 
                                                 // Add GymMember object to Firebase database with the unique ID
                                                 databaseRef.child(memberId).setValue(gymMember)
@@ -221,7 +256,7 @@ public class AddMemberActivity extends AppCompatActivity {
                     } else {
                         // Create GymMember object with the information and default image URL
                         GymMember gymMember = new GymMember(memberId, fullName, mobileNo, email, registrationCode,
-                                startDate, dueDate, totalAmount, dueAmount, paidAmount, age, gender, selectedPackage, defaultImageUrl);
+                                startDate, dueDate, totalAmount, dueAmount, paidAmount, age, weight, height, healthIssues, gender, selectedPackage, defaultImageUrl);
 
                         // Add GymMember object to Firebase database with the unique ID
                         databaseRef.child(memberId).setValue(gymMember)

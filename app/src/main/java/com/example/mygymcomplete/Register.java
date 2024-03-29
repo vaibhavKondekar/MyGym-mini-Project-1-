@@ -2,13 +2,17 @@ package com.example.mygymcomplete;
 
 
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -20,6 +24,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -45,6 +50,8 @@ public class Register extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_register);
 
         fauth = FirebaseAuth.getInstance();
@@ -89,6 +96,7 @@ public class Register extends AppCompatActivity {
 
                 if (flag) {
                     fauth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString()).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+
                         @Override
                         public void onSuccess(AuthResult authResult) {
                             FirebaseUser user = fauth.getCurrentUser();
@@ -98,6 +106,20 @@ public class Register extends AppCompatActivity {
                             userInfo.put("Username", fullName.getText().toString());
                             userInfo.put("Email", email.getText().toString());
                             userInfo.put("Phone Number", phone.getText().toString());
+                            // Inside the onSuccess listener of createUserWithEmailAndPassword
+                            if (user != null) {
+                                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                        .setDisplayName(fullName.getText().toString()) // Set the display name to the username
+                                        .build();
+
+                                user.updateProfile(profileUpdates)
+                                        .addOnCompleteListener(task -> {
+                                            if (task.isSuccessful()) {
+                                                Log.d(TAG, "User profile updated.");
+                                            }
+                                        });
+                            }
+
                             if (isAdmin.isChecked()) {
                                 userInfo.put("isAdmin", "1");
                             }
