@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/white"
+    android:background="@color/faint_white"
     android:layout_height="match_parent">
 
     <LinearLayout
@@ -13,15 +13,16 @@
         android:padding="16dp">
 
 
+        <!-- Add an ImageView to display the selected photo -->
+
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="Add Member"
             android:textSize="24sp"
-            android:textStyle="bold"
-            android:layout_marginTop="16dp"/>
-        <!-- Add an ImageView to display the selected photo -->
-
+            android:textStyle="bold" />
 
         <ImageView
             android:id="@+id/selectedImageView"
@@ -30,13 +31,14 @@
             android:layout_gravity="center"
             android:layout_marginTop="16dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/img" />
+            android:src="@drawable/img_1" />
 
         <Button
             android:id="@+id/takePhotoButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Take photo"
+            android:backgroundTint="@color/black"
             android:layout_gravity="center"
             android:layout_marginTop="16dp"/>
 
@@ -177,7 +179,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Add Member" />
+            android:text="Add Member"
+            android:backgroundTint="@color/black"/>
 
     </LinearLayout>
 

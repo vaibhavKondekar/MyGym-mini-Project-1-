@@ -161,51 +161,69 @@ public class UserMenu extends AppCompatActivity {
         if (currentUser != null) {
             String userID = currentUser.getUid();
 
-            // Retrieve username from Firestore
-            FirebaseFirestore.getInstance().collection("users").document(userID)
-                    .get()
-                    .addOnSuccessListener(documentSnapshot -> {
-                        if (documentSnapshot.exists()) {
-                            String userName = documentSnapshot.getString("Username");
-                            if (userName != null && !userName.isEmpty()) {
-                                // Get current date and time
-                                String timestamp = String.valueOf(System.currentTimeMillis());
+            // Get current date and time
+            String timestamp = String.valueOf(System.currentTimeMillis());
 
-                                // Create a reference to your Firebase Realtime Database
-                                DatabaseReference attendanceRef = FirebaseDatabase.getInstance().getReference("attendance").child(userID);
+            // Create a reference to your Firebase Realtime Database
+            DatabaseReference attendanceRef = FirebaseDatabase.getInstance().getReference("attendance").child(userID);
 
-                                // Create a new entry in the database for the attendance
-                                String attendanceKey = attendanceRef.push().getKey(); // Generate a unique key for the attendance entry
-                                HashMap<String, Object> attendanceData = new HashMap<>();
-                                attendanceData.put("timestamp", timestamp);
-                                attendanceData.put("type", attendanceType);
-                                attendanceData.put("name", userName); // Include user's name in attendance data
+            // Create a new entry in the database for the attendance
+            String attendanceKey = attendanceRef.push().getKey(); // Generate a unique key for the attendance entry
+            HashMap<String, Object> attendanceData = new HashMap<>();
+            attendanceData.put("timestamp", timestamp);
+            attendanceData.put("type", attendanceType);
 
-                                // Push the data to Firebase under a unique key
-                                attendanceRef.child(attendanceKey).setValue(attendanceData)
-                                        .addOnSuccessListener(aVoid -> {
-                                            // Attendance marked successfully
-                                            Log.d(TAG, "markAttendance: Attendance marked successfully");
-                                        })
-                                        .addOnFailureListener(e -> {
-                                            // Error occurred while marking attendance
-                                            Log.e(TAG, "markAttendance: Error marking attendance", e);
-                                            Toast.makeText(UserMenu.this, "Failed to mark attendance. Please try again.", Toast.LENGTH_SHORT).show();
-                                        });
+            // Check if it's a check-in or check-out
+            if (attendanceType.equals("Check In")) {
+                // Retrieve username from Firestore
+                FirebaseFirestore.getInstance().collection("users").document(userID)
+                        .get()
+                        .addOnSuccessListener(documentSnapshot -> {
+                            if (documentSnapshot.exists()) {
+                                String userName = documentSnapshot.getString("Username");
+                                if (userName != null && !userName.isEmpty()) {
+                                    attendanceData.put("name", userName); // Include user's name in attendance data
+                                    // Push the data to Firebase under a unique key
+                                    attendanceRef.child(attendanceKey).setValue(attendanceData)
+                                            .addOnSuccessListener(aVoid -> {
+                                                // Attendance marked successfully
+                                                Log.d(TAG, "markAttendance: Check-in marked successfully");
+                                                Toast.makeText(UserMenu.this, "Check-in marked successfully.", Toast.LENGTH_SHORT).show();
+                                            })
+                                            .addOnFailureListener(e -> {
+                                                // Error occurred while marking attendance
+                                                Log.e(TAG, "markAttendance: Error marking check-in", e);
+                                                Toast.makeText(UserMenu.this, "Failed to mark check-in. Please try again.", Toast.LENGTH_SHORT).show();
+                                            });
+                                } else {
+                                    Log.e(TAG, "markAttendance: User name is null or empty");
+                                }
                             } else {
-                                Log.e(TAG, "markAttendance: User name is null or empty");
+                                Log.e(TAG, "markAttendance: Document does not exist");
                             }
-                        } else {
-                            Log.e(TAG, "markAttendance: Document does not exist");
-                        }
-                    })
-                    .addOnFailureListener(e -> {
-                        Log.e(TAG, "markAttendance: Error fetching user data", e);
-                        Toast.makeText(UserMenu.this, "Failed to fetch user data. Please try again.", Toast.LENGTH_SHORT).show();
-                    });
+                        })
+                        .addOnFailureListener(e -> {
+                            Log.e(TAG, "markAttendance: Error fetching user data", e);
+                            Toast.makeText(UserMenu.this, "Failed to fetch user data. Please try again.", Toast.LENGTH_SHORT).show();
+                        });
+            } else if (attendanceType.equals("Check Out")) {
+                // Push the data to Firebase under a unique key
+                attendanceRef.child(attendanceKey).setValue(attendanceData)
+                        .addOnSuccessListener(aVoid -> {
+                            // Attendance marked successfully
+                            Log.d(TAG, "markAttendance: Check-out marked successfully");
+                            Toast.makeText(UserMenu.this, "Check-out marked successfully.", Toast.LENGTH_SHORT).show();
+                        })
+                        .addOnFailureListener(e -> {
+                            // Error occurred while marking attendance
+                            Log.e(TAG, "markAttendance: Error marking check-out", e);
+                            Toast.makeText(UserMenu.this, "Failed to mark check-out. Please try again.", Toast.LENGTH_SHORT).show();
+                        });
+            }
         } else {
             Log.e(TAG, "markAttendance: Current user is null");
         }
     }
+
 
 }
