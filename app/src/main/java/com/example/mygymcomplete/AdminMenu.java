@@ -7,9 +7,11 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class AdminMenu extends AppCompatActivity {
 
-    private Button btnAddMember, btnViewMembers, btnAttendance, btnDashboard;
+    private Button btnAddMember, btnViewMembers, btnAttendance, btnDashboard,logout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +23,17 @@ public class AdminMenu extends AppCompatActivity {
         btnViewMembers = findViewById(R.id.btnViewMembers);
         btnAttendance = findViewById(R.id.btnAttendance);
         btnDashboard = findViewById(R.id.btnDashboard);
+        logout=findViewById(R.id.logout);
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(AdminMenu.this, Login1.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         // Set click listeners
         btnAddMember.setOnClickListener(new View.OnClickListener() {
