@@ -6,70 +6,55 @@
     android:background="@drawable/splash"
     android:orientation="vertical"
     android:gravity="center"
-    android:padding="16dp">
+    tools:context=".AdminMenu">
 
 
     <ImageView
         android:id="@+id/btnAddMember"
-        android:layout_width="395dp"
-        android:layout_height="162dp"
-        android:layout_alignParentEnd="true"
+        android:layout_width="wrap_content"
+        android:layout_height="172dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="44dp"
-        android:layout_marginBottom="589dp"
-        android:backgroundTint="@color/faint_white"
-        android:src="@drawable/addmembers" />
+        android:layout_marginBottom="378dp"
+        android:src="@drawable/add" />
 
-    <Button
+    <ImageView
         android:id="@+id/btnViewMembers"
-        android:layout_width="200dp"
-        android:layout_height="60dp"
+        android:layout_width="wrap_content"
+        android:layout_height="172dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="151dp"
-        android:layout_marginBottom="430dp"
-        android:text="My Gym Members"
-        android:textColor="#000000" />
+        android:layout_marginBottom="550dp"
+        android:src="@drawable/gymmembers" />
 
-    <Button
+    <ImageView
         android:id="@+id/btnAttendance"
-        android:layout_width="200dp"
-        android:layout_height="60dp"
+        android:layout_width="match_parent"
+        android:layout_height="169dp"
         android:layout_alignParentEnd="true"
-
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="143dp"
-        android:layout_marginBottom="272dp"
-        android:text="Attendance"
-        android:textColor="#000000" />
+        android:layout_marginBottom="34dp"
+        android:src="@drawable/attend" />
 
-    <Button
+    <ImageView
         android:id="@+id/btnDashboard"
-        android:layout_width="200dp"
-        android:layout_height="60dp"
+        android:layout_width="match_parent"
+        android:layout_height="172dp"
         android:layout_alignParentEnd="true"
-
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="133dp"
-        android:layout_marginBottom="130dp"
-        android:text="Dashboard"
-        android:textColor="#000000" />
+        android:layout_marginBottom="206dp"
+        android:src="@drawable/dash" />
 
     <Button
         android:id="@+id/logout"
-        android:layout_width="200dp"
-        android:layout_height="66dp"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-
         android:layout_alignParentBottom="true"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="114dp"
-        android:layout_marginBottom="24dp"
-        android:text="log out"
+        android:layout_marginEnd="135dp"
+        android:layout_marginBottom="17dp"
         android:backgroundTint="@color/black"
-        android:textColor="#ffff" />
+        android:text="log out"
+        android:textColor="@color/white" />
 
 </RelativeLayout>

@@ -24,9 +24,11 @@
             android:id="@+id/memberPhotoImageView"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:background="@drawable/img_1"
+
             android:scaleType="fitCenter"
-            android:src="@drawable/default_photo" />
+            android:src="@drawable/default_photo"
+            />
+        <!--            android:background="@drawable/img_1"-->
 
         <!-- Member Details Layout -->
         <LinearLayout
@@ -110,7 +112,8 @@
             android:layout_margin="5dp"
             android:text="Renew"
             android:textColor="#ffff"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:backgroundTint="@color/black"/>
 
         <!-- Details Button -->
         <Button
@@ -120,7 +123,8 @@
             android:layout_margin="5dp"
             android:text="Details"
             android:textColor="#ffff"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:backgroundTint="@color/black"/>
     </LinearLayout>
 
 </LinearLayout>

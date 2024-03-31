@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,7 +13,8 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class AdminMenu extends AppCompatActivity {
 
-    private Button btnAddMember, btnViewMembers, btnAttendance, btnDashboard,logout;
+    private ImageView  btnAttendance, btnDashboard,btnAddMember,btnViewMembers;
+    Button logout ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

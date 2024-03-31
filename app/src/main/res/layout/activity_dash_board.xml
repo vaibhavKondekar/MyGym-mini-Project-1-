@@ -94,7 +94,8 @@
         android:layout_marginTop="16dp"
         android:text="Show List"
         android:textSize="18sp"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:backgroundTint="@color/black"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"

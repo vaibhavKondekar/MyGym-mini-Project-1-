@@ -1,28 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
-    tools:context=".AttendanceActivity">
-    <!-- item_attendance.xml -->
-    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/textView"
+    android:background="@drawable/splash">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/attendanceRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:textSize="16sp"
-        android:textColor="@android:color/black"
-        android:gravity="center_vertical"/>
+        android:layout_height="match_parent" />
 
-
-    <ListView
-        android:id="@+id/attendanceListView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:divider="@null"
-        android:dividerHeight="0dp"
-        android:background="@color/black" />
-
-</LinearLayout>
+</RelativeLayout>

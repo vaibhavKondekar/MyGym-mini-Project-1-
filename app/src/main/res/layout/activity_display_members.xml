@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:padding="5dp"
     tools:context=".DisplayMembersActivity"
-    android:background="@color/white">
+    android:background="@drawable/splash">
 
     <EditText
         android:id="@+id/etSearch"
@@ -38,6 +38,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp"
-        android:text="Add Member" />
+        android:text="Add Member"
+        android:backgroundTint="@color/black"/>
 
 </RelativeLayout>

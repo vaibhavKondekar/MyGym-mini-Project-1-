@@ -1,6 +1,7 @@
 package com.example.mygymcomplete;
 
 import androidx.activity.result.ActivityResultLauncher;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,8 +18,11 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -40,6 +44,8 @@ public class UserMenu extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_user_menu);
         Log.d(TAG, "onCreate: ");
+
+
 
         auth = FirebaseAuth.getInstance();
         button = findViewById(R.id.logout);
@@ -155,6 +161,8 @@ public class UserMenu extends AppCompatActivity {
 
     // Function to mark attendance
     // Function to mark attendance
+    // Function to mark attendance
+    // Function to mark attendance
     private void markAttendance(String attendanceType) {
         // Get current user details
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -167,12 +175,6 @@ public class UserMenu extends AppCompatActivity {
             // Create a reference to your Firebase Realtime Database
             DatabaseReference attendanceRef = FirebaseDatabase.getInstance().getReference("attendance").child(userID);
 
-            // Create a new entry in the database for the attendance
-            String attendanceKey = attendanceRef.push().getKey(); // Generate a unique key for the attendance entry
-            HashMap<String, Object> attendanceData = new HashMap<>();
-            attendanceData.put("timestamp", timestamp);
-            attendanceData.put("type", attendanceType);
-
             // Check if it's a check-in or check-out
             if (attendanceType.equals("Check In")) {
                 // Retrieve username from Firestore
@@ -182,9 +184,13 @@ public class UserMenu extends AppCompatActivity {
                             if (documentSnapshot.exists()) {
                                 String userName = documentSnapshot.getString("Username");
                                 if (userName != null && !userName.isEmpty()) {
-                                    attendanceData.put("name", userName); // Include user's name in attendance data
+                                    // Create a new entry in the database for check-in
+                                    HashMap<String, Object> attendanceData = new HashMap<>();
+                                    attendanceData.put("name", userName);
+                                    attendanceData.put("checkInTime", timestamp);
+
                                     // Push the data to Firebase under a unique key
-                                    attendanceRef.child(attendanceKey).setValue(attendanceData)
+                                    attendanceRef.push().setValue(attendanceData)
                                             .addOnSuccessListener(aVoid -> {
                                                 // Attendance marked successfully
                                                 Log.d(TAG, "markAttendance: Check-in marked successfully");
@@ -207,23 +213,43 @@ public class UserMenu extends AppCompatActivity {
                             Toast.makeText(UserMenu.this, "Failed to fetch user data. Please try again.", Toast.LENGTH_SHORT).show();
                         });
             } else if (attendanceType.equals("Check Out")) {
-                // Push the data to Firebase under a unique key
-                attendanceRef.child(attendanceKey).setValue(attendanceData)
-                        .addOnSuccessListener(aVoid -> {
-                            // Attendance marked successfully
-                            Log.d(TAG, "markAttendance: Check-out marked successfully");
-                            Toast.makeText(UserMenu.this, "Check-out marked successfully.", Toast.LENGTH_SHORT).show();
-                        })
-                        .addOnFailureListener(e -> {
-                            // Error occurred while marking attendance
-                            Log.e(TAG, "markAttendance: Error marking check-out", e);
-                            Toast.makeText(UserMenu.this, "Failed to mark check-out. Please try again.", Toast.LENGTH_SHORT).show();
-                        });
+                // Retrieve the last check-in entry from Firebase
+                attendanceRef.orderByChild("checkInTime").limitToLast(1).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            // Get the key of the last check-in entry
+                            String checkInKey = snapshot.getKey();
+                            if (checkInKey != null) {
+                                // Update the check-out time for the last check-in entry
+                                attendanceRef.child(checkInKey).child("checkOutTime").setValue(timestamp)
+                                        .addOnSuccessListener(aVoid -> {
+                                            // Check-out time updated successfully
+                                            Log.d(TAG, "markAttendance: Check-out marked successfully");
+                                            Toast.makeText(UserMenu.this, "Check-out marked successfully.", Toast.LENGTH_SHORT).show();
+                                        })
+                                        .addOnFailureListener(e -> {
+                                            // Error occurred while updating check-out time
+                                            Log.e(TAG, "markAttendance: Error marking check-out", e);
+                                            Toast.makeText(UserMenu.this, "Failed to mark check-out. Please try again.", Toast.LENGTH_SHORT).show();
+                                        });
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        Log.e(TAG, "markAttendance: Error retrieving last check-in entry", databaseError.toException());
+                        Toast.makeText(UserMenu.this, "Failed to mark check-out. Please try again.", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         } else {
             Log.e(TAG, "markAttendance: Current user is null");
         }
     }
+
+
 
 
 }
