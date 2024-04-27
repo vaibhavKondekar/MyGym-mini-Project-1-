@@ -1,0 +1,25 @@
+nmap nmap.org
+--scans that network and all the main ports and give their states
+
+nmap -F nmap.org
+--it scans faster
+
+nmap -p 22 nmap.org
+--specify the port number 
+
+nmap -p 1-15 nmap.org
+--1-15 all port
+
+nmap -p 22,23,24 nmap.org
+--
+
+nmap -p mysql,http,ftp nmap.org
+--
+
+nmap -A nmap.org
+--Aggrasively it scans all operating system other services 
+
+nmap -F -oN A:\scans.txt nmap.org
+--creates txt file and saves the result.
+
+ 
