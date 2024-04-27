@@ -1,0 +1,24 @@
+take 2811 router
+
+one fastethernate 192.138.1.1 
+other 10.10.10.1
+
+router CLI
+-ip dhcp excluded-address 192.168.1.1
+-ip dhcp excluded-address 10.10.10.1
+
+exit
+
+ip dhcp pool A
+network 192.168.1.0 255.255.255.0
+defautl-router 192.168.1.1
+dns-server 8.8.8.8
+exit
+
+
+ip dhcp pool b
+network 10.10.10.0 255.0.0.0
+defautl-router 10.10.10.1
+dns-server 8.8.8.8
+exit
+
