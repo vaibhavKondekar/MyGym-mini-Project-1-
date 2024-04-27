@@ -1,3 +1,6 @@
+nmap -T4 -A -v nmap.org
+nmap software cmd
+
 nmap nmap.org
 --scans that network and all the main ports and give their states
 
