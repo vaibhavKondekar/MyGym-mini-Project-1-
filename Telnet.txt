@@ -1,0 +1,38 @@
+take pc 
+switch 
+2911 router
+
+go to switch--
+en
+config t
+hostname sw1
+int vlan 1
+ip add 192.168.1.1 255.255.255.0
+no sh
+exit 
+username cisco password 1234
+
+line vty 0 15 
+login local 
+transport input telnet
+
+go to Router--
+en 
+config t
+hostname R1
+int g0/0
+ip add 10.10.10.1 255.0.0.0
+no sh
+exit 
+username cisco password 1234
+
+line vty 0 15 
+login local 
+transport input telnet
+
+
+
+go to pc 1
+telnet 192.168.1.1
+
+
